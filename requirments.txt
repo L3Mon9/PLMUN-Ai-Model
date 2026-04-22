@@ -1,8 +1,0 @@
-scikit-learn>=1.0.0
-flask
-scikit-learn
-Flask
-gunicorn
-scikit-learn
-pandas
-numpy
