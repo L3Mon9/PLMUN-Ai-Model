@@ -819,5 +819,23 @@ def get_stats():
         "accuracy": eval_results["accuracy"], "f1_score": eval_results["f1_score"]
     })
 
+def chatbot_respond(user_input, vectorizer, model):
+    cleaned = preprocess(user_input)
+
+    intent = rule_based_classify(cleaned)
+    method = "Rule-Based"
+    confidence = 100.0
+
+    if intent is None:
+        probs = model.predict_proba([cleaned])[0]
+        idx = probs.argmax()
+        intent = model.classes_[idx]
+        confidence = round(float(probs[idx]) * 100, 1)
+        method = "Naive Bayes"
+
+    response = get_response(intent)
+
+    return response, intent, method
+
 if __name__ == "__main__":
     app.run(debug=True)
