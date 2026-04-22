@@ -1,0 +1,15 @@
+[2026-04-20 13:23:14.979680]
+User: hello tatanong lang regarding sa enrollment kung kelan
+Intent: greeting
+Method: Rule-Based
+
+[2026-04-20 13:23:26.010991]
+User: regarding sa enrollment
+Intent: enrollment
+Method: Rule-Based
+
+[2026-04-20 13:23:37.028121]
+User: kelan po?
+Intent: schedule
+Method: Rule-Based
+

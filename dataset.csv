@@ -1,0 +1,568 @@
+text,intent
+hi,greeting
+hello,greeting
+hey there,greeting
+good morning,greeting
+good afternoon,greeting
+good evening,greeting
+hello there,greeting
+hi there,greeting
+hey,greeting
+greetings,greeting
+good day,greeting
+hi can you help me,greeting
+hello i need help,greeting
+hi i have a question,greeting
+hello i want to ask something,greeting
+can you help me,greeting
+i need assistance,greeting
+start,greeting
+anyone there,greeting
+is anyone available,greeting
+hello po,greeting
+good morning po,greeting
+may i ask,greeting
+excuse me,greeting
+hi bots,greeting
+kumusta,greeting
+musta,greeting
+hello chatbot,greeting
+hi need help po,greeting
+magandang umaga,greeting
+bye,farewell
+goodbye,farewell
+see you,farewell
+take care,farewell
+thanks bye,farewell
+ok thank you bye,farewell
+im done,farewell
+thats all,farewell
+nothing else thank you,farewell
+ok bye,farewell
+leaving now,farewell
+have to go,farewell
+cya,farewell
+see ya,farewell
+done na,farewell
+ok lang na,farewell
+sige bye,farewell
+wala na akong tanong,farewell
+ok na po salamat,farewell
+ayos na po,farewell
+that will be all,farewell
+no more questions,farewell
+i think thats it,farewell
+thank you,thanks
+thanks,thanks
+thank you so much,thanks
+thanks a lot,thanks
+maraming salamat,thanks
+salamat,thanks
+i appreciate it,thanks
+that was helpful,thanks
+thanks for the info,thanks
+ok got it thanks,thanks
+noted thanks,thanks
+ok thanks,thanks
+thank u,thanks
+ty,thanks
+very helpful thank you,thanks
+thanks for helping me,thanks
+i got the info i needed thanks,thanks
+noted po salamat,thanks
+salamat po,thanks
+thank you po,thanks
+ok po got it,thanks
+what are the enrollment requirements,enrollment
+how do i enroll in this school,enrollment
+when is the enrollment period,enrollment
+what documents are needed for enrollment,enrollment
+can i enroll online,enrollment
+where can i enroll,enrollment
+what is the enrollment process,enrollment
+is enrollment still open,enrollment
+how much is the tuition fee,enrollment
+who handles student enrollment,enrollment
+how to apply for admission,enrollment
+what are the admission requirements,enrollment
+is there an entrance exam,enrollment
+when does enrollment start and end,enrollment
+can a working student enroll,enrollment
+what is the deadline for enrollment,enrollment
+how to enroll as a transferee,enrollment
+what is the maximum number of units i can enroll,enrollment
+can i enroll in summer classes,enrollment
+how to enroll for the next semester,enrollment
+pano mag enroll,enrollment
+kailan ang enrollment,enrollment
+magkano ang tuition,enrollment
+paano mag apply,enrollment
+open na ba ang enrollment,enrollment
+i want to enroll what should i do,enrollment
+what do i need to bring for enrollment,enrollment
+is there online enrollment available,enrollment
+can i enroll late,enrollment
+what happens if i miss the enrollment period,enrollment
+how do i know if i am officially enrolled,enrollment
+can i add subjects after enrollment,enrollment
+what is the enrollment fee,enrollment
+where do i pay enrollment fee,enrollment
+can i enroll without complete requirements,enrollment
+how many units can i take per semester,enrollment
+is there a minimum number of units to enroll,enrollment
+can i enroll part time,enrollment
+what is cross enrollment,enrollment
+how do i apply for cross enrollment,enrollment
+can i enroll in another school while enrolled here,enrollment
+what is the procedure for late enrollment,enrollment
+can freshman students enroll online,enrollment
+how do i get my student number,enrollment
+when will i get my student id after enrollment,enrollment
+what is the difference between regular and irregular student,enrollment
+can i be an irregular student,enrollment
+how do i become a regular student,enrollment
+what is promissory note in enrollment,enrollment
+can i enroll with a promissory note,enrollment
+how do i request for enrollment assessment,enrollment
+paano malaman kung enrolled na ako,enrollment
+kelan ko malalaman ang schedule ko pagkatapos mag enroll,enrollment
+may bayad ba ang enrollment,enrollment
+libre ba ang tuition sa plmun,enrollment
+kailangan ba ng entrance exam para makapag enroll,enrollment
+pwede bang mag enroll ang mga working students,enrollment
+what is my class schedule,schedule
+when do classes start,schedule
+what time are my classes,schedule
+how do i check my schedule,schedule
+is there a schedule change this semester,schedule
+when does the semester start,schedule
+when does the semester end,schedule
+where can i view my schedule,schedule
+are there weekend classes,schedule
+what is the academic calendar,schedule
+what is the first day of class,schedule
+when are the midterm exams,schedule
+when are the final exams,schedule
+how long is each class period,schedule
+when is semestral break,schedule
+where can i get a copy of the class schedule,schedule
+what are the class days for my course,schedule
+is there a make up class schedule,schedule
+can i request a change in my schedule,schedule
+what are the school holidays this semester,schedule
+kailan magsisimula ang klase,schedule
+kelan ang finals,schedule
+kelan ang midterm,schedule
+may pasok ba bukas,schedule
+anong oras ang klase,schedule
+i want to check my schedule,schedule
+when will classes resume,schedule
+is there class tomorrow,schedule
+how do i know if class is suspended,schedule
+when is the last day of classes,schedule
+how many weeks is one semester,schedule
+is there class during holy week,schedule
+what happens if the professor is absent,schedule
+is there a makeup class if class is cancelled,schedule
+when is the enrollment for summer,schedule
+is there summer class available,schedule
+when does summer class start,schedule
+how long is summer class,schedule
+is there class on weekends,schedule
+what time does school start,schedule
+what time does school end,schedule
+when is the opening of classes,schedule
+is school open tomorrow,schedule
+when is foundation day,schedule
+do we have class on holidays,schedule
+kelan ang enrollment ng summer,schedule
+may klase ba tayo bukas,schedule
+kailan ang foundation day ng plmun,schedule
+anong linggo ang midterm,schedule
+kailan magtatapos ang semester,schedule
+what are the school policies,policies
+what is the passing grade,policies
+what are the attendance rules,policies
+what happens if i fail a subject,policies
+can i shift to another course,policies
+what is the school dress code,policies
+what is the retention policy,policies
+what is the grading system,policies
+can i drop a subject,policies
+what are the academic rules,policies
+how many absences are allowed,policies
+what is the policy on late submission,policies
+can i request a reconsideration of my grade,policies
+what is the policy on cheating,policies
+what is the incomplete grade policy,policies
+can i take a leave of absence,policies
+what is the minimum grade to stay enrolled,policies
+what are the rules on student conduct,policies
+what is the appeal process for failed grades,policies
+what is the maximum load per semester,policies
+bakit ako bagsak,policies
+pano kung bumagsak ako,policies
+ilan ang allowed na absent,policies
+ano ang passing grade,policies
+pwede ba akong mag drop ng subject,policies
+can i still pass if i have many absences,policies
+what is the consequence of cheating,policies
+can i appeal my grade,policies
+is there a grade consultation,policies
+what if i disagree with my grade,policies
+what is the grading scale at plmun,policies
+how is the final grade computed,policies
+what is the policy on late enrollment,policies
+can i shift course in second semester,policies
+what is academic probation,policies
+what is the policy for students on probation,policies
+how do i get removed from probation,policies
+what is the maximum number of failed subjects allowed,policies
+can i retake a subject i failed,policies
+what happens if i fail the same subject twice,policies
+what is the policy on plagiarism,policies
+what are the grounds for dismissal,policies
+can i take an incomplete grade,policies
+how do i remove an incomplete grade,policies
+what is the deadline to remove incomplete grade,policies
+what is the policy on academic dishonesty,policies
+is there a dress code in plmun,policies
+what is the uniform policy,policies
+can i wear casual clothes to school,policies
+what is the pe uniform,policies
+what is the policy on using mobile phones in class,policies
+can i appeal a failing grade,policies
+what is the process for grade appeal,policies
+how long does grade appeal take,policies
+who do i approach for grade appeal,policies
+what if my professor gave me a wrong grade,policies
+can i change my major,policies
+what is the process for shifting,policies
+what are the requirements for shifting,policies
+is there a grade requirement for shifting,policies
+when can i shift course,policies
+bakit hindi ako pwedeng mag shift,policies
+magkano ang bayad para mag shift,policies
+ano ang minimum grade para hindi ma dismiss,policies
+pano ang process ng grade reconsideration,policies
+may penalty ba kung maraming absent,policies
+how do i get my transcript of records,documents
+how to request a transcript of records,documents
+how to get a certificate of enrollment,documents
+where do i request official documents,documents
+how long does it take to get documents,documents
+what documents can i request from the registrar,documents
+can i request documents online,documents
+how much is the document fee,documents
+where is the registrar office located,documents
+how do i claim my documents,documents
+how do i get a certificate of good moral character,documents
+what is the process for getting a diploma,documents
+can someone else claim my documents,documents
+what is an authorization letter for document release,documents
+how do i request a copy of my grades,documents
+how do i get a school clearance,documents
+what is needed to request a form 137,documents
+how do i get a transfer credential,documents
+how long is a certificate of enrollment valid,documents
+can i request documents even after graduation,documents
+paano kumuha ng tor,documents
+saan kukuha ng certificate of enrollment,documents
+magkano ang bayad sa dokumento,documents
+nasaan ang registrar office,documents
+may online request ba para sa documents,documents
+i need my transcript of records,documents
+how do i get proof of enrollment,documents
+can i get my grades in writing,documents
+i need a document for scholarship application,documents
+how to get a honorable dismissal,documents
+how do i get a diploma after graduation,documents
+where do i get my graduation clearance,documents
+what are the requirements to get my diploma,documents
+how do i request for authentication of documents,documents
+can i get a certified true copy of my tor,documents
+how many days before i can get my tor,documents
+can i rush my document request,documents
+is there a rush fee for documents,documents
+how do i request documents for board exam,documents
+what documents do i need for employment,documents
+i need documents for visa application,documents
+can i get a copy of my old grades,documents
+how do i get a certificate of completion,documents
+what is a certification of units earned,documents
+i need my nso for enrollment,documents
+where do i get my birth certificate,documents
+do i need to submit my psa for enrollment,documents
+what documents are needed for graduation,documents
+how do i apply for graduation,documents
+when is the deadline for graduation application,documents
+paano mag apply ng graduation,documents
+kailan ang graduation ng plmun,documents
+what are the available services for students,services
+where is the guidance office,services
+how do i contact the registrar,services
+is there a scholarship available,services
+how do i apply for a scholarship,services
+what are the student services offered,services
+where can i get help with my concerns,services
+who can assist me with my problems,services
+is there online student support,services
+how do i contact the school office,services
+is there a library service,services
+does the school have a student clinic,services
+how do i apply for financial assistance,services
+where is the cashier office,services
+is there a dormitory service,services
+does the school have a student organization,services
+how do i report a student concern,services
+is there a lost and found office,services
+how do i access the student portal,services
+where can i get counseling,services
+may scholarship ba dito,services
+paano mag apply ng scholarship,services
+nasaan ang guidance office,services
+may libreng counseling ba,services
+saan ang cashier,services
+i need financial help,services
+is there a school nurse,services
+how do i join a student organization,services
+i lost my id what should i do,services
+where do i pay my tuition,services
+what hotline can i contact,services
+is there a helpdesk,services
+how do i report a complaint,services
+where is the student affairs office,services
+what scholarships are available at plmun,services
+how do i renew my scholarship,services
+what are the requirements to maintain scholarship,services
+what is the gwa requirement for scholarship,services
+is there a government scholarship at plmun,services
+how do i apply for ched scholarship,services
+is there unifast scholarship,services
+is there a local government scholarship,services
+how do i know if i qualify for financial aid,services
+what is the process for financial assistance,services
+is there a payment plan for tuition,services
+can i pay tuition in installment,services
+what are the payment methods accepted,services
+can i pay online,services
+where do i pay my miscellaneous fees,services
+what is included in the miscellaneous fee,services
+how do i request a refund,services
+what is the library schedule,services
+how do i borrow books from the library,services
+what is the maximum number of books i can borrow,services
+how long can i borrow library books,services
+is there a computer laboratory for students,services
+how do i access the computer laboratory,services
+is there wifi on campus,services
+how do i get the school wifi password,services
+is there a canteen on campus,services
+where is the cafeteria,services
+how do i get a new student id,services
+how much is the student id,services
+what do i do if my id is lost,services
+can i get a replacement id,services
+how long does it take to get a replacement id,services
+is there a pe locker room,services
+where is the sports facility,services
+is there a gymnasium,services
+how do i join varsity,services
+is there a student publication,services
+how do i join a club or organization,services
+what organizations are available in plmun,services
+is there a student council,services
+how do i contact the student council,services
+how do i file a complaint against a teacher,services
+how do i report bullying,services
+where do i go if i have a mental health concern,services
+is there free counseling,services
+is the guidance office open every day,services
+who is the school registrar,services
+how do i get the contact number of the registrar,services
+what is the email address of plmun,services
+where is the admission office,services
+how do i get a school id for new students,services
+is there a school bus service,services
+where do i park my vehicle,services
+is there a parking area for students,services
+nasaan ang computer lab,services
+may wifi ba sa plmun,services
+saan ako pwedeng mag reklamo,services
+paano mag apply ng id replacement,services
+may libreng psychological services ba,services
+can i enroll without a form 138,enrollment
+what is the difference between old and new students enrollment,enrollment
+do i need to take a placement test,enrollment
+what course should i take,enrollment
+is computer science available at plmun,enrollment
+what are the courses offered at plmun,enrollment
+how many years is the computer science course,enrollment
+can i cross enroll to another school,enrollment
+what is the minimum age to enroll,enrollment
+do i need a medical certificate for enrollment,enrollment
+can i reserve a slot before enrollment,enrollment
+what is the procedure for late enrollment,enrollment
+can i enroll part time,enrollment
+what is the difference between regular and irregular student,enrollment
+how do i become a regular student again,enrollment
+can i change my course after enrollment,enrollment
+is there a quota for enrollment,enrollment
+what are the steps to enroll for freshmen,enrollment
+where do i get my registration form,enrollment
+can i pay tuition in installment,enrollment
+what is the miscellaneous fee,enrollment
+are there any entrance requirements for senior high graduates,enrollment
+can i enroll if i failed subjects last semester,enrollment
+is there an interview during admission,enrollment
+what scholarship can i apply during enrollment,enrollment
+when is the last day to add or drop subjects,schedule
+can i request for a makeup class,schedule
+what happens if the professor is absent,schedule
+where can i see the list of my subjects,schedule
+is there a class on special holidays,schedule
+what is the schedule for semestral break,schedule
+when is christmas vacation,schedule
+when is summer classes,schedule
+is there saturday classes at plmun,schedule
+what is the schedule for enrollment period,schedule
+how many hours per unit,schedule
+what is the schedule for college week,schedule
+is there a remedial class schedule,schedule
+can i check my schedule through a mobile phone,schedule
+what is the school calendar for this school year,schedule
+when does the second semester start,schedule
+when does the first semester end,schedule
+how many weeks in a semester,schedule
+is there a break between midterm and finals,schedule
+what are the exam weeks,schedule
+how long is the semestral break,schedule
+when does the summer semester start,schedule
+can i take subjects in advance,schedule
+what is the dropping period,schedule
+how do i know if my class is cancelled,schedule
+is there a class during fiesta,schedule
+what is the academic year at plmun,schedule
+when is the recognition day,schedule
+when is the graduation ceremony,schedule
+what is the maximum number of absences allowed,policies
+what happens when i exceed the allowed absences,policies
+can i be dropped from class due to absences,policies
+is there a late policy for exams,policies
+what is the passing grade in plmun,policies
+what is the equivalent of 75 in the grading system,policies
+what is an inc grade,policies
+how do i remove my inc grade,policies
+what is a conditional grade,policies
+can i retake a subject i failed,policies
+can i have a grade of 5 removed from my record,policies
+what is academic dismissal,policies
+how many times can i fail before dismissal,policies
+what is the policy for students on probation,policies
+can i graduate even if i failed one subject,policies
+what is the maximum residency period,policies
+what happens if i exceed the maximum residency,policies
+can i file for an appeal if i failed,policies
+what is the process for grade appeal,policies
+who handles grade appeals at plmun,policies
+what is the policy on plagiarism,policies
+what are the consequences of plagiarism,policies
+what is the policy on tardiness,policies
+is there a dress code for pe class,policies
+what is the policy on online class attendance,policies
+can i use my phone during class,policies
+what is the policy on gadgets in school,policies
+what is the policy on ID wearing,policies
+is it required to wear uniform at plmun,policies
+what is the student code of conduct,policies
+what are the grounds for suspension,policies
+what are the grounds for expulsion,policies
+can i apply for leave of absence this semester,policies
+what is the procedure for leave of absence,policies
+how long can i take a leave of absence,policies
+what is a dean's list,policies
+how do i qualify for the dean's list,policies
+what is the latin honor requirement at plmun,policies
+what is the grade requirement for cum laude,policies
+what is the grade requirement for magna cum laude,policies
+what is the grade requirement for summa cum laude,policies
+how do i request a TOR for job application,documents
+can i get a TOR while still studying,documents
+what is the difference between TOR and grades,documents
+how do i get a certified true copy of my grades,documents
+can i request documents during enrollment period,documents
+how do i get a copy of my old records,documents
+what is the process for getting a diploma replacement,documents
+i lost my diploma what should i do,documents
+can i request a certified copy of my diploma,documents
+what documents do i need for board exam application,documents
+what documents do i need for civil service exam,documents
+how do i get a certificate of graduation,documents
+what is a certificate of units earned,documents
+can i get a certificate of medium of instruction,documents
+what is an authentication of documents,documents
+can plmun authenticate my documents,documents
+how much is the authentication fee,documents
+can i request documents by email,documents
+how do i follow up my document request,documents
+how long is the processing for diploma,documents
+can i get my old TOR from years ago,documents
+what is a certified true copy,documents
+do i need to personally claim my documents,documents
+can i request a rush processing of documents,documents
+what is the school seal used for in documents,documents
+how do i get a student ID,services
+how do i replace a lost ID,services
+where do i report a lost ID,services
+how much is the ID replacement fee,services
+what is the process for getting a new ID,services
+is there a school shuttle service,services
+where is the PLMun campus located,services
+what are the school hours at plmun,services
+is there a parking area at plmun,services
+is there a wifi at plmun,services
+how do i connect to the school wifi,services
+is there a computer laboratory at plmun,services
+can i borrow books from the library,services
+how long can i borrow library books,services
+what are the library hours,services
+can i access online library resources,services
+is there a printing service at school,services
+where can i photocopy documents near school,services
+is there a medical exam required at plmun,services
+how do i avail the school clinic,services
+is there a dentist at the school clinic,services
+is the school clinic free,services
+how do i apply for indigency scholarship,services
+what scholarships are available at plmun,services
+is there a government scholarship at plmun,services
+how do i apply for CHED scholarship,services
+is there a tuition fee waiver at plmun,services
+what is the PLMun financial assistance program,services
+how do i apply for student financial assistance,services
+where is the scholarship office,services
+what are the requirements for scholarship application,services
+can working students apply for scholarship,services
+is there a part time job for students at plmun,services
+is there a work study program at plmun,services
+how do i join the student council,services
+how do i join a school club,services
+what student organizations are in plmun,services
+is there an engineering club at plmun,services
+is there a computer science organization at plmun,services
+how do i contact my professor,services
+how do i reach the dean of my college,services
+what is the contact number of plmun,services
+what is the email address of plmun,services
+is there a facebook page of plmun,services
+how do i file a complaint against a teacher,services
+how do i report bullying in school,services
+is there a mental health support at plmun,services
+how do i access counseling services,services
+what is the office hours of the registrar,services
+what is the office hours of the cashier,services
+where is the main office of plmun,services
+is there a helpdesk for online concerns,services
+how do i reset my student portal password,services
+i cannot login to the student portal,services
+what is the website of plmun,services
