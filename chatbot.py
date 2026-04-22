@@ -1,6 +1,7 @@
 # =============================================================================
 # FLASK WEB APP — AI Institutional Support Chatbot
 # PLMun — Pamantasan ng Lungsod ng Muntinlupa
+# University Road, NBP Reservation, Brgy. Poblacion, Muntinlupa City, 1776
 # =============================================================================
 
 import re, csv, os, random, time
@@ -54,8 +55,9 @@ KEYWORD_MAP = {
         "enrollment period", "enrollment deadline", "enrollment requirements",
         "enroll late", "online enrollment", "enrollment fee", "add subjects",
         "courses offered", "course available", "what course", "installment",
-        "miscellaneous fee", "form 138", "placement test", "regular student",
-        "irregular student", "cross enroll", "quota"
+        "miscellaneous fee", "form 138", "placement test", "pcat",
+        "college admission test", "regular student", "irregular student",
+        "cross enroll", "quota", "freshmen", "freshman", "new student"
     ],
     "schedule": [
         "schedule", "class", "classes", "semester", "academic calendar",
@@ -64,7 +66,7 @@ KEYWORD_MAP = {
         "class suspended", "last day of class", "school day",
         "kelan ang", "kailan magsisimula", "may pasok", "anong oras",
         "dropping period", "summer class", "exam week", "recognition day",
-        "graduation", "school year", "christmas vacation", "fiesta",
+        "graduation", "school year", "christmas vacation",
         "second semester", "first semester", "academic year", "college week"
     ],
     "policies": [
@@ -102,12 +104,12 @@ KEYWORD_MAP = {
         "helpdesk", "hotline", "complaint", "student affairs",
         "student id", "replace id", "id replacement",
         "wifi", "internet", "computer lab", "printing", "photocopy",
-        "shuttle", "parking", "school location", "campus",
-        "mental health", "facebook", "website", "email",
+        "campus", "mental health", "facebook", "website", "email",
         "contact number", "office hours", "student council",
-        "join club", "student organization", "work study", "part time",
+        "join club", "student organization", "iskolar ng bayan",
         "CHED scholarship", "indigency", "tuition waiver", "financial assistance",
-        "reset password", "cannot login", "student portal problem"
+        "reset password", "cannot login", "student portal problem",
+        "eLibrary", "elibrary", "library card"
     ]
 }
 
@@ -119,371 +121,439 @@ def rule_based_classify(text):
     return None
 
 # =============================================================================
-# RESPONSES — Smart, Long, Step-by-Step, Easy to Understand
+# RESPONSES — Based on Real PLMun Information
 # =============================================================================
-
 RESPONSES = {
 
     "greeting": [
         """👋 Hello, Iskolar! Welcome to the PLMun Student Support Chatbot!
 
-I am your official AI-powered assistant for Pamantasan ng Lungsod ng Muntinlupa (PLMun). I am available 24/7 to help you with your school-related concerns.
+I am your official AI-powered assistant for Pamantasan ng Lungsod ng Muntinlupa (PLMun) — located at University Road, NBP Reservation, Brgy. Poblacion, Muntinlupa City.
 
-📌 Here are the topics I can help you with:
-• 📋 Enrollment — requirements, procedures, fees, and schedules
-• 📅 Class Schedule — academic calendar, exam dates, and semestral breaks
-• 📜 School Policies — grading system, attendance rules, and academic conduct
-• 📁 Documents — TOR, certificates, and other official records
-• 🎓 Student Services — scholarships, guidance, clinic, library, and more
+📌 I can help you with:
+• 📋 Enrollment & Admission — PCAT, requirements, procedures
+• 📅 Class Schedule — academic calendar, exam dates, semestral breaks
+• 📜 School Policies — grading system, attendance, conduct
+• 📁 Documents — TOR, certificates, diplomas, clearances
+• 🎓 Student Services — Iskolar ng Bayan scholarship, guidance, library, clinic
 
-💡 Tip: Just type your question naturally, and I will do my best to assist you!
+💚 PLMun Color: Bamboo Green | Motto: Serve the City, Serve the Nation
 
-How can I help you today, Iskolar? 😊""",
+How can I help you today? 😊""",
 
-        """🎓 Mabuhay, Iskolar ng PLMun! I'm your Student Support Chatbot.
+        """🎓 Mabuhay, Iskolar ng PLMun!
 
-Whether you have questions about enrollment, your class schedule, school policies, document requests, or student services — I'm here to guide you every step of the way!
+I'm your Student Support Chatbot for Pamantasan ng Lungsod ng Muntinlupa. Whether you have questions about PCAT admission, enrollment, your schedule, policies, documents, or scholarships — I'm here to guide you step by step!
 
-Feel free to type your concern or question below. I'll give you clear, step-by-step guidance so you know exactly what to do. 😊
+📞 PLMun Contact:
+• Telephone: 02-8248-9161 loc. 146
+• Email: plmuncomm@plmun.edu.ph
+• Website: www.plmun.edu.ph
 
-What would you like to know today?""",
+What would you like to know today? 😊""",
     ],
 
     "farewell": [
         """👋 Thank you for using the PLMun Student Support Chatbot!
 
-It was a pleasure assisting you today. Here are a few reminders before you go:
-
-✅ Always check the PLMun official website for the latest announcements.
+Before you go, here are quick reminders:
+✅ Check the PLMun website (www.plmun.edu.ph) for latest announcements.
 ✅ Monitor your Student Portal regularly for grades and enrollment updates.
-✅ Don't hesitate to visit the Registrar's Office or Student Affairs Office for concerns that need personal attention.
+✅ For urgent concerns, visit the Registrar's Office or Student Affairs Office during office hours (Mon–Fri, 8:00 AM – 5:00 PM).
 
-Good luck with your studies, Iskolar! You've got this! 💪
-Feel free to come back anytime you have questions. Goodbye! 😊""",
+💚 Good luck with your studies, Iskolar! Serve the City, Serve the Nation! 💪
+Feel free to come back anytime. Goodbye! 😊""",
 
         """See you, Iskolar! 👋
 
-Remember — the PLMun community is always here to support you. If you have more questions in the future, don't hesitate to come back and ask.
+Remember — PLMun is always here to support you.
+📞 02-8248-9161 | 🌐 www.plmun.edu.ph | 📧 plmuncomm@plmun.edu.ph
 
-Take care, stay safe, and keep pushing forward in your academic journey! 🎓✨""",
+Take care and keep pushing forward! 💚""",
     ],
 
     "thanks": [
         """😊 You're very welcome, Iskolar!
 
-I'm always here to help you navigate your academic journey at PLMun. Here are a few things you can do next:
+Here's what you can do next:
+✅ If your concern is resolved — go ahead and take the next steps!
+✅ If you need to visit an office — bring your Student ID and required documents.
+✅ For more info — visit www.plmun.edu.ph or call 02-8248-9161.
 
-✅ If your concern has been resolved — great! Go ahead and take the next steps.
-✅ If you need more information — feel free to ask a follow-up question.
-✅ If you need to visit an office — make sure to bring your Student ID and required documents.
-
-Is there anything else you'd like to know? I'm happy to help! 🎓""",
+Is there anything else I can help you with? 🎓""",
 
         """Glad I could help! 😊
 
-Remember, you can always come back here if you have more questions about enrollment, schedules, policies, documents, or student services.
-
-Good luck, Iskolar! You're doing great! 💪""",
+Feel free to come back if you have more questions about PLMun enrollment, schedules, policies, documents, or services. Good luck, Iskolar! 💚""",
     ],
 
     "enrollment": [
-        """📋 ENROLLMENT GUIDE — PLMun
+        """📋 PLMun ADMISSION & ENROLLMENT GUIDE
 
-Here is a complete step-by-step guide on how to enroll at Pamantasan ng Lungsod ng Muntinlupa (PLMun):
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 STEP 1 — Check the Enrollment Schedule
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-• Visit the PLMun official website or Facebook page.
-• Check the posted Academic Calendar for the enrollment period.
-• Take note of the exact dates for your year level or college.
+Welcome to Pamantasan ng Lungsod ng Muntinlupa (PLMun)! Here is a complete guide on how to get admitted and enrolled.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 STEP 2 — Prepare Your Documents
+📌 STEP 1 — TAKE THE PLMun COLLEGE ADMISSION TEST (PCAT)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-For NEW STUDENTS (Freshmen):
-   ✅ Form 138 or Form 137 (Report Card)
-   ✅ PSA Birth Certificate (original + photocopy)
-   ✅ Certificate of Good Moral Character
-   ✅ Medical Certificate from a licensed physician
-   ✅ 2x2 ID photos (at least 2 copies)
+• PLMun requires applicants to pass the PLMun College Admission Test (PCAT) before enrollment.
+• Apply online at: https://plmun.edu.ph/admission/undergrad/
+• Fill out the online application form completely.
+• Wait for your examination schedule and venue.
+
+📝 PCAT Requirements:
+✅ Online Application Form (filled out completely)
+✅ Form 138 / Senior High School Report Card (photocopy)
+✅ PSA Birth Certificate (photocopy)
+✅ Certificate of Good Moral Character (from your school)
+✅ 2x2 ID photo (white background)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📌 STEP 2 — PREPARE YOUR ENROLLMENT DOCUMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+After passing the PCAT, prepare the following:
+
+For NEW STUDENTS (Freshmen / SHS Graduates):
+✅ Original Form 138 (Senior High School Report Card)
+✅ PSA Birth Certificate (original + 1 photocopy)
+✅ Certificate of Good Moral Character (original)
+✅ Medical Certificate from a licensed physician
+✅ 2x2 ID photos (2 copies, white background)
+✅ PCAT Result / Notice of Acceptance
 
 For TRANSFEREES:
-   ✅ Honorable Dismissal from previous school
-   ✅ Transcript of Records (certified true copy)
-   ✅ PSA Birth Certificate
-   ✅ Certificate of Good Moral Character
-   ✅ Medical Certificate
+✅ Honorable Dismissal from previous school
+✅ Certified True Copy of Transcript of Records (TOR)
+✅ PSA Birth Certificate (original + 1 photocopy)
+✅ Certificate of Good Moral Character
+✅ Medical Certificate
+✅ 2x2 ID photos (2 copies)
 
 For OLD / CONTINUING STUDENTS:
-   ✅ Valid Student ID
-   ✅ Previous semester's grades or registration form
+✅ Valid PLMun Student ID
+✅ Previous Certificate of Registration (COR)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 STEP 3 — Visit the Registrar's Office
+📌 STEP 3 — GO TO THE REGISTRAR'S OFFICE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-• Go to the Registrar's Office during the enrollment period.
-• Submit your documents for verification.
-• Get your enrollment assessment form.
+• Visit the PLMun Registrar's Office during the official enrollment period.
+• Email: universityregistrar@plmun.edu.ph
+• Submit all required documents for verification.
+• Get your Enrollment Assessment Form.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 STEP 4 — Pay Your Tuition and Fees
+📌 STEP 4 — PAY AT THE TREASURY / CASHIER'S OFFICE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-• Proceed to the Cashier's Office with your assessment form.
-• Pay in full or inquire about installment payment options.
-• Keep your Official Receipt — you will need this throughout the semester.
+• PLMun offers FREE TUITION under the UNIFAST / Universal Access to Quality Tertiary Education Act (RA 10931).
+• Miscellaneous fees may still apply — ask the Cashier's Office for the current fee schedule.
+• Payment can be made at the PLMun Treasury Office.
+• Online payment options: Land Bank of the Philippines or Development Bank of the Philippines (mobile banking).
+• Keep your Official Receipt — this is required to complete enrollment.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 STEP 5 — Confirm Your Enrollment
+📌 STEP 5 — CONFIRM YOUR ENROLLMENT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 • Return to the Registrar's Office with your Official Receipt.
-• Get your Certificate of Registration (COR) or enrollment confirmation.
-• Check your Student Portal to verify that your subjects are reflected.
+• Receive your Certificate of Registration (COR).
+• Check your Student Portal to confirm your enrolled subjects.
 
-⚠️ IMPORTANT REMINDERS:
-• Enroll within the official period to avoid late enrollment penalties.
-• Incomplete documents may delay or prevent your enrollment.
-• Online enrollment may be available — check the PLMun Student Portal.
+📞 For more info: 02-8248-9161 loc. 146 | 🌐 www.plmun.edu.ph
+⚠️ Always enroll within the official period to avoid late enrollment penalties.
 
-Do you have more questions about enrollment? Feel free to ask! 😊""",
+Do you have more questions about enrollment? 😊""",
 
-        """📋 TUITION AND FEES GUIDE — PLMun
+        """📋 PLMun COURSES OFFERED
 
-Here is what you need to know about tuition and payment at PLMun:
+Pamantasan ng Lungsod ng Muntinlupa (PLMun) offers the following degree programs:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💰 PAYMENT OPTIONS
+🖥️ COLLEGE OF INFORMATION TECHNOLOGY & COMPUTER STUDIES (CITCS)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-PLMun offers flexible payment schemes for students:
-
-✅ Full Payment — Pay the total amount at once at the Cashier's Office.
-✅ Installment Payment — Pay in staggered amounts. Ask the Cashier's Office about the available installment schedule.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 STEPS TO PAY YOUR TUITION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Step 1 → Get your Assessment Form from the Registrar's Office after enrollment assessment.
-Step 2 → Proceed to the Cashier's Office with your Assessment Form.
-Step 3 → Choose your payment option (full or installment).
-Step 4 → Pay and receive your Official Receipt.
-Step 5 → Present your Official Receipt to the Registrar to complete your enrollment.
+✅ Bachelor of Science in Computer Science (BSCS)
+✅ Bachelor of Science in Information Technology (BSIT)
+✅ Associate in Computer Technology (ACT)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎓 SCHOLARSHIP OPTIONS
+💼 COLLEGE OF BUSINESS ADMINISTRATION (CBA)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-If you're having difficulty paying tuition, you may apply for:
-• Government scholarships (CHED, PESFA, UNIFAST)
-• PLMun institutional scholarships
-• Local Government Unit (LGU) grants
+✅ BS Business Administration — Major in Human Resource Development Management
+✅ BS Business Administration — Major in Marketing Management
+✅ BS Business Administration — Major in Operations Management
 
-Visit the Student Affairs Office for scholarship application details.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 COLLEGE OF ACCOUNTANCY (COA)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Bachelor of Science in Accountancy (BSA)
+✅ Bachelor of Science in Management Accounting (BSMA)
 
-⚠️ Always keep your Official Receipt — it is proof of your payment and needed for enrollment completion.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔬 COLLEGE OF ARTS AND SCIENCES (CAS)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Bachelor of Arts in Communication
+✅ Bachelor of Science in Psychology
+✅ Bachelor of Public Administration
+✅ Bachelor of Arts in Political Science
 
-Would you like to know more about scholarships or enrollment requirements? 😊""",
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚔 COLLEGE OF CRIMINAL JUSTICE (CCJ)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Bachelor of Science in Criminology
+✅ Bachelor of Science in Industrial Security Management
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 COLLEGE OF TEACHER EDUCATION (CTE)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Bachelor of Elementary Education (BEEd) — General Elementary Education
+✅ Bachelor of Secondary Education (BSEd) — Major in Science
+✅ Bachelor of Secondary Education (BSEd) — Major in English
+✅ Bachelor of Secondary Education (BSEd) — Major in Social Science
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏥 COLLEGE OF MEDICINE (COM)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Doctor of Medicine (MD)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🤝 INSTITUTE OF SOCIAL WORK (ISW)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Bachelor of Science in Social Work (BSSW)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎓 GRADUATE STUDIES (GS)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Master in Business Administration (MBA)
+✅ Master of Arts in Education — Major in Educational Management
+✅ Master of Arts in Education — Major in Guidance and Counseling
+✅ Master in Security and Correctional Administration
+✅ Master in Information Technology
+✅ Master of Science in Criminology
+
+🌐 For more details: www.plmun.edu.ph/program-offered.php
+Do you want to know the admission requirements for a specific course? 😊""",
     ],
 
     "schedule": [
         """📅 CLASS SCHEDULE GUIDE — PLMun
 
-Here is how you can find and manage your class schedule at PLMun:
+Here is how to find and manage your class schedule at PLMun:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 HOW TO CHECK YOUR CLASS SCHEDULE
+📌 HOW TO CHECK YOUR SCHEDULE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Step 1 → Log in to the PLMun Student Portal using your student credentials.
-Step 2 → Navigate to the Schedule or Enrollment section.
-Step 3 → View your list of enrolled subjects and their schedules.
-Step 4 → Take note of your room assignments and class times.
+Step 1 → Go to the PLMun Student Portal: https://plmun.edu.ph/student-portal/system/main/index.php
+Step 2 → Log in using your PLMun student credentials (Student ID + Password).
+Step 3 → Navigate to the Schedule or Enrollment section.
+Step 4 → View your list of subjects, class times, and room assignments.
+Step 5 → Note down or print your schedule for reference.
 
-If you cannot access the Student Portal:
-→ Visit the Registrar's Office and request a printed copy of your schedule.
+If you can't access the Student Portal:
+→ Visit the Registrar's Office (Mon–Fri, 8:00 AM – 5:00 PM)
+→ Email: universityregistrar@plmun.edu.ph
 → Bring your Student ID for verification.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 ACADEMIC CALENDAR OVERVIEW
+📌 PLMun ACADEMIC CALENDAR OVERVIEW
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 PLMun follows a semester-based academic year:
 
-📘 First Semester — typically starts in August
-📗 Second Semester — typically starts in January
-☀️ Summer Term — available for selected subjects (usually March to May)
+📘 1st Semester — August to December
+📗 2nd Semester — January to May
+☀️ Summer Term — June to July (selected subjects only)
 
-Key dates included in the Academic Calendar:
+Key events in the calendar:
+✅ Enrollment Period (before each semester starts)
 ✅ First Day of Classes
-✅ Midterm Examination Week
-✅ Final Examination Week
-✅ Semestral Break
-✅ Enrollment Period
-✅ Dropping / Adding Period
-✅ School Holidays and Special Events
+✅ Adding / Dropping Period (first 2 weeks of the semester)
+✅ Midterm Examination Week (around Week 9)
+✅ Final Examination Week (last 2 weeks of semester)
+✅ Semestral Break (between semesters)
+✅ Christmas Vacation (December)
+✅ Recognition Day / Graduation Ceremonies (end of school year)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📌 HOW TO REQUEST A SCHEDULE CHANGE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Step 1 → Talk to your Academic Adviser about your concern.
-Step 2 → Fill out a Schedule Change Request form from the Registrar's Office.
-Step 3 → Get approval from your Department Chair or Dean.
-Step 4 → Submit the approved form to the Registrar's Office.
-Step 5 → Check your updated schedule on the Student Portal.
+Step 2 → Get a Schedule Change / Adding-Dropping Form from the Registrar's Office.
+Step 3 → Fill out the form and have it signed by your professor and adviser.
+Step 4 → Submit the approved form to the Registrar's Office before the dropping deadline.
+Step 5 → Verify the change on your Student Portal.
 
-⚠️ REMINDER: Schedule changes are only allowed during the official adding/dropping period.
+⚠️ Schedule changes are only allowed during the official Adding/Dropping Period (first 2 weeks of the semester).
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📌 CLASS SUSPENSION ANNOUNCEMENTS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-For class suspension updates, always monitor:
-📱 PLMun Official Facebook Page
-🌐 PLMun Official Website
-🗓️ Student Portal Announcements
+Always monitor:
+📱 PLMun Official Facebook Page: Pamantasan ng Lungsod ng Muntinlupa
+🌐 PLMun Website: www.plmun.edu.ph
 📌 School Bulletin Boards
 
-Do you have more questions about your schedule or the academic calendar? 😊""",
+📞 For concerns: 02-8248-9161 | 📧 plmuncomm@plmun.edu.ph
+Do you have more questions about your schedule? 😊""",
     ],
 
     "policies": [
-        """📜 GRADING SYSTEM AND ATTENDANCE POLICY — PLMun
+        """📜 PLMun GRADING SYSTEM & ACADEMIC POLICIES
 
-Here is a detailed guide to understanding PLMun's academic policies:
+Here is a detailed guide based on the PLMun Student Handbook:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 GRADING SYSTEM
+📌 PLMun GRADING SYSTEM
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 PLMun uses a numerical grading system:
 
-Grade 1.00 — Excellent (99–100%)
-Grade 1.25 — Superior (96–98%)
-Grade 1.50 — Very Good (93–95%)
-Grade 1.75 — Good (90–92%)
-Grade 2.00 — Meritorious (87–89%)
-Grade 2.25 — Very Satisfactory (84–86%)
-Grade 2.50 — Satisfactory (81–83%)
-Grade 2.75 — Fairly Satisfactory (78–80%)
-Grade 3.00 — Passing (75–77%)
-Grade 5.00 — Failure (below 75%)
-INC — Incomplete (requirements not complete)
+1.00 — Excellent        (97–100%)
+1.25 — Superior         (94–96%)
+1.50 — Very Good        (91–93%)
+1.75 — Good             (88–90%)
+2.00 — Meritorious      (85–87%)
+2.25 — Very Satisfactory(82–84%)
+2.50 — Satisfactory     (79–81%)
+2.75 — Fairly Satisfactory (76–78%)
+3.00 — Passing          (75%)
+5.00 — Failure          (below 75%)
+INC  — Incomplete       (requirements not yet completed)
+DRP  — Dropped          (officially dropped during dropping period)
 
-✅ Passing Grade: 3.00 or higher (equivalent to 75%)
+✅ Passing Grade: 3.00 (equivalent to 75%)
 ❌ Failing Grade: 5.00 (below 75%)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📌 ATTENDANCE POLICY
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-• Maximum allowed absences: 20% of total class hours per subject.
-• Example: If a subject meets 3 hours per week × 18 weeks = 54 hours total → Maximum absences = 10.8 hours (approximately 3–4 sessions).
-• Exceeding the allowed absences may result in a grade of DROPPED (D) or FAILED (5.00).
-
-⚠️ Always communicate with your professor if you need to be absent for valid reasons.
+• Maximum allowed absences: 20% of the total class hours per subject.
+• Exceeding the allowed absences may result in a grade of DROPPED (DRP) or FAILED (5.00).
+• Always communicate with your professor for valid absences.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 WHAT TO DO IF YOU RECEIVE AN INC GRADE
+📌 INC (INCOMPLETE) GRADE — WHAT TO DO
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Step 1 → Contact your professor immediately to know what requirements are missing.
+Step 1 → Contact your professor immediately to identify missing requirements.
 Step 2 → Complete and submit the missing requirements within the set deadline.
-Step 3 → Your professor will submit your final grade to the Registrar's Office.
+Step 3 → Your professor will submit a grade change to the Registrar's Office.
 Step 4 → Check your Student Portal after a few days to see your updated grade.
 
-⚠️ If the INC is not resolved within the allowed period, it may automatically become a failing grade (5.00).
+⚠️ Unresolved INC grades may convert to 5.00 (Failing) after the deadline.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 LATIN HONORS REQUIREMENTS
+📌 LATIN HONORS — PLMun REQUIREMENTS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🏅 Summa Cum Laude — GWA of 1.00 to 1.25 (no failing grades, no dropped subjects)
+🏅 Summa Cum Laude — GWA of 1.00 to 1.25
+   (Exempted from tuition fees for one semester if re-enrolling for another degree)
 🥈 Magna Cum Laude — GWA of 1.26 to 1.50
+   (Exempted from tuition fees for one semester if re-enrolling for another degree)
 🥉 Cum Laude        — GWA of 1.51 to 1.75
+   (Entitled to 50% tuition fee discount for one semester if re-enrolling)
 
-Please verify current requirements with the Registrar's Office as standards may be updated.
-
-Do you have a specific policy concern you'd like to know more about? 😊""",
-
-        """📜 GRADE APPEAL AND DROPPING POLICY — PLMun
-
-Here is what you need to know about grade appeals and dropping subjects:
+Requirements: No failing grades, no dropped subjects (verify current requirements with the Registrar).
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📌 HOW TO APPEAL A GRADE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-If you believe your grade is incorrect or unfair, here are the steps:
-
-Step 1 → Talk to your Professor first. Ask for a breakdown of your grades.
-Step 2 → If unresolved, write a formal Grade Appeal Letter addressed to the Department Chair.
-Step 3 → Submit the letter to the Department Chair's Office along with supporting evidence (e.g., graded outputs, quiz papers).
+Step 1 → Talk to your Professor and request a grade breakdown.
+Step 2 → If unresolved, write a formal Grade Appeal Letter to the Department Chair.
+Step 3 → Attach supporting evidence (quiz papers, project receipts, etc.).
 Step 4 → If still unresolved, escalate to the Dean's Office.
-Step 5 → The Dean will review and make a final decision.
+Step 5 → The Dean will review and issue a final decision.
 
-⚠️ File your appeal within the appeal period stated in the Student Handbook. Late appeals may not be accepted.
+⚠️ File your appeal within the appeal period stated in the PLMun Student Handbook.
+
+📖 Full policies are in the PLMun Student Handbook — ask the Registrar's Office for a copy.
+📞 02-8248-9161 | 🌐 www.plmun.edu.ph
+Do you have a specific policy concern? 😊""",
+
+        """📜 PLMun DROPPING, SHIFTING & LEAVE OF ABSENCE GUIDE
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📌 HOW TO DROP A SUBJECT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Step 1 → Visit the Registrar's Office and get a Subject Dropping Form.
+Step 1 → Visit the Registrar's Office and get an Adding/Dropping Form.
 Step 2 → Fill out the form with the subject(s) you want to drop.
-Step 3 → Get the signature of your Professor and Academic Adviser.
-Step 4 → Submit the completed form to the Registrar's Office before the dropping deadline.
+Step 3 → Have it signed by your Professor and Academic Adviser.
+Step 4 → Submit to the Registrar's Office BEFORE the dropping deadline.
+   (Dropping period: first 2 weeks of the semester)
 Step 5 → Keep a copy of your dropping form for your records.
 
-⚠️ Dropping after the deadline may result in a failing grade (5.00) on your record.
+⚠️ Dropping AFTER the deadline = 5.00 (Failing) on your record.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 HOW TO APPLY FOR LEAVE OF ABSENCE
+📌 HOW TO SHIFT TO ANOTHER COURSE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Step 1 → Secure a Leave of Absence (LOA) Form from the Registrar's Office.
-Step 2 → Fill out the form and state your reason clearly.
-Step 3 → Get approval from your Academic Adviser and Dean.
-Step 4 → Submit the approved form to the Registrar's Office.
-Step 5 → Keep a copy for your records and monitor your re-enrollment schedule.
+Step 1 → Talk to your Academic Adviser about your plan to shift.
+Step 2 → Visit the Registrar's Office and request a Shifting Form.
+Step 3 → Get approval from your current Department Chair.
+Step 4 → Visit the department of your new course and get acceptance approval.
+Step 5 → Submit all signed forms to the Registrar's Office.
+Step 6 → Re-enroll under your new course during the next enrollment period.
 
-⚠️ LOA is subject to approval and is typically limited to a certain number of semesters.
+⚠️ Shifting is subject to availability of slots and approval of both departments.
 
-Would you like more information about school policies? 😊""",
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📌 HOW TO APPLY FOR LEAVE OF ABSENCE (LOA)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Step 1 → Get a Leave of Absence (LOA) Form from the Registrar's Office.
+Step 2 → Fill out the form and clearly state your reason for the LOA.
+Step 3 → Have it approved by your Academic Adviser and Dean.
+Step 4 → Submit the completed form to the Registrar's Office.
+Step 5 → Keep a copy and note your return-to-study deadline.
+
+⚠️ LOA is subject to approval and is limited by PLMun's maximum residency policy.
+⚠️ Maximum residency at PLMun: 1.5 times the normal program length (e.g., 6 years for a 4-year course).
+
+📞 02-8248-9161 | 🌐 www.plmun.edu.ph | 📧 universityregistrar@plmun.edu.ph
+Do you have more policy questions? 😊""",
     ],
 
     "documents": [
-        """📁 DOCUMENT REQUEST GUIDE — PLMun Registrar's Office
+        """📁 PLMun DOCUMENT REQUEST GUIDE
 
-Here is a complete step-by-step guide on how to request official documents at PLMun:
+Here is a step-by-step guide to requesting official documents from the PLMun Registrar's Office:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 AVAILABLE DOCUMENTS YOU CAN REQUEST
+📌 DOCUMENTS YOU CAN REQUEST AT PLMun
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ Transcript of Records (TOR)
-✅ Certificate of Enrollment / Registration
+✅ Certificate of Enrollment / Registration (COR)
 ✅ Certificate of Good Moral Character
 ✅ Certificate of Graduation
 ✅ Certified True Copy of Grades
-✅ Diploma (original release or replacement)
+✅ Diploma (original or replacement)
 ✅ Honorable Dismissal / Transfer Credentials
-✅ Form 137 (for senior high or elementary records)
+✅ Form 137 (Secondary School Records)
 ✅ School Clearance
 ✅ Certificate of Units Earned
+✅ Certificate of Medium of Instruction
 ✅ Authentication of Documents
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📌 STEPS TO REQUEST A DOCUMENT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Step 1 → Go to the PLMun Registrar's Office during office hours (Monday–Friday, 8:00 AM – 5:00 PM).
+Step 1 → Go to the PLMun Registrar's Office
+   📍 Location: Main Building, PLMun Campus, University Road, NBP Reservation, Brgy. Poblacion, Muntinlupa City
+   🕐 Office Hours: Monday – Friday, 8:00 AM – 5:00 PM
+   📧 Email: universityregistrar@plmun.edu.ph
 
 Step 2 → Fill out a Document Request Form. Specify:
-   • Type of document you need
+   • Type of document needed
    • Number of copies
-   • Purpose (e.g., for employment, board exam, scholarship)
+   • Purpose (employment, board exam, scholarship, etc.)
 
-Step 3 → Present your valid Student ID or any government-issued ID for verification.
+Step 3 → Present your valid Student ID or government-issued ID.
 
-Step 4 → Proceed to the Cashier's Office to pay the document fee.
-   • Document fees vary depending on the type — ask the Registrar for the current fee schedule.
+Step 4 → Go to the Treasury / Cashier's Office to pay the document fee.
+   • Fees vary per document type — ask the Registrar's Office for the current fee schedule.
 
 Step 5 → Return to the Registrar's Office and submit your Official Receipt.
 
-Step 6 → Wait for the processing period:
-   • Regular processing: 3 to 5 working days
-   • Rush processing: may be available for an additional fee (inquire at the Registrar)
+Step 6 → Wait for processing:
+   • Regular: 3 to 5 working days
+   • Rush processing: may be available at additional cost (inquire at Registrar's Office)
 
-Step 7 → Return to the Registrar's Office on the scheduled release date to claim your document.
+Step 7 → Return on the scheduled release date to claim your document.
    • Bring your Official Receipt and valid ID.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 IF SOMEONE ELSE WILL CLAIM FOR YOU
+📌 PROXY CLAIMING (If someone will claim for you)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Your representative must bring:
 ✅ Authorization Letter (signed by you)
@@ -491,118 +561,148 @@ Your representative must bring:
 ✅ Their own valid ID (original)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 FOR BOARD EXAM APPLICANTS
+📌 FOR BOARD EXAM APPLICANTS (NLE, LET, CPA, Criminology Board, etc.)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Typically required documents:
-✅ Transcript of Records (TOR)
+Typically required from PLMun Registrar:
+✅ Transcript of Records (TOR) — certified true copy
 ✅ Certificate of Graduation
-✅ Diploma
-✅ Good Moral Character Certificate
+✅ Diploma (original)
+✅ Certificate of Good Moral Character
 
-⚠️ Request your documents at least 2 to 3 weeks before your board exam application deadline to account for processing time.
+⚠️ Request at least 2–3 weeks before your board exam application deadline!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 FOR LOST DIPLOMA
+📌 LOST DIPLOMA — REPLACEMENT PROCEDURE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Step 1 → Prepare an Affidavit of Loss (notarized).
-Step 2 → Submit it to the Registrar's Office along with your valid ID.
-Step 3 → Pay the Diploma Replacement Fee at the Cashier's Office.
-Step 4 → Wait for the processing period and claim your replacement on the given schedule.
+Step 1 → Prepare a notarized Affidavit of Loss.
+Step 2 → Submit it to the Registrar's Office with your valid ID.
+Step 3 → Pay the Diploma Replacement Fee at the Treasury / Cashier's Office.
+Step 4 → Wait for the processing and claim on the given schedule.
 
-Do you have a specific document you need help requesting? 😊""",
+📞 02-8248-9161 loc. 146 | 📧 universityregistrar@plmun.edu.ph | 🌐 www.plmun.edu.ph
+Do you need help with a specific document request? 😊""",
     ],
 
     "services": [
-        """🎓 SCHOLARSHIP APPLICATION GUIDE — PLMun
+        """🎓 PLMun SCHOLARSHIP GUIDE — Iskolar ng Bayan & More
 
-Here is a complete guide on how to apply for scholarships and financial assistance at PLMun:
+Here is a complete guide to scholarships and financial aid at PLMun:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📌 AVAILABLE SCHOLARSHIPS AT PLMun
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🏛️ Government Scholarships:
-   • CHED-UNIFAST Scholarship (Free Higher Education)
-   • PESFA (Private Education Student Financial Assistance)
-   • GSISEA / PAGIBIG Scholarships (for dependents of members)
+🏛️ ISKOLAR NG BAYAN SCHOLARSHIP PROGRAM
+   • Established by City Ordinance of Muntinlupa (Ordinance Nos. 98-08, 08-042, 13-010)
+   • Provides FREE college education and incentives for qualified Muntinlupa residents.
+   • Benefits: Free tuition, allowances, and other incentives depending on the ordinance.
 
-🏫 Institutional Scholarships:
-   • PLMun Scholarship (merit-based or need-based)
-   • Academic Excellence Awards
+🎓 UNIFAST / RA 10931 (Universal Access to Quality Tertiary Education Act)
+   • PLMun students enjoy FREE TUITION under this national law.
+   • Miscellaneous fees may still apply — inquire at the Cashier's Office.
 
-🏙️ Local Government Scholarships:
-   • Muntinlupa City Government Scholarship
-   • Barangay-level scholarships
+🏫 PLMun ACADEMIC EXCELLENCE SCHOLARSHIP
+   • Merit-based — for students with outstanding academic performance.
+   • Magna Cum Laude graduates: Exempt from tuition for 1 semester (if re-enrolling).
+   • Cum Laude graduates: 50% tuition discount for 1 semester (if re-enrolling).
+
+🤝 OUT-SOURCED SCHOLARSHIPS (inquire at the Student Affairs Office / OSA):
+   ✅ Iskolar ng Bayan Councilor's Scholarship
+   ✅ How Good Foundation, Inc.
+   ✅ P.D. 577 — Veterans' Beneficiaries
+   ✅ LCCK Foundation
+   ✅ Charity First Foundation
+   ✅ CHED / PESFA / UNIFAST Grants
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📌 STEPS TO APPLY FOR A SCHOLARSHIP
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Step 1 → Visit the Student Affairs Office or Scholarship Office at PLMun.
-Step 2 → Ask for the list of available scholarships and their requirements.
-Step 3 → Prepare the required documents. Common requirements include:
-   ✅ Application Form (get from the Scholarship Office)
-   ✅ Certificate of Registration (COR) or Enrollment
-   ✅ Copy of Grades / TOR
+Step 1 → Visit the PLMun Student Affairs Office (OSA) and ask for the list of available scholarships.
+Step 2 → Get the Scholarship Application Form from the OSA.
+Step 3 → Prepare the common requirements:
+   ✅ Duly filled-out Application Form
+   ✅ Certificate of Registration (COR) or Enrollment Form
+   ✅ Certified True Copy of Grades / TOR
+   ✅ General Point Average (GPA) Certificate
    ✅ Certificate of Good Moral Character
-   ✅ Barangay Certificate of Indigency (for need-based)
+   ✅ Barangay Certificate of Indigency (for need-based scholarships)
    ✅ Proof of Family Income (ITR or Certificate of No Income)
-   ✅ 2x2 ID photo (2 copies)
-   ✅ Photocopy of valid ID
+   ✅ Certificate of Matriculation (COM) — submitted to the Scholarship Coordinator within 1 week after enrollment
+   ✅ Barangay Clearance
+   ✅ 2x2 ID photos (2 copies)
 
-Step 4 → Submit your complete requirements to the Scholarship Office within the deadline.
-Step 5 → Wait for the evaluation and results announcement.
-Step 6 → If approved, comply with the scholarship conditions (e.g., maintaining a minimum GWA).
+Step 4 → Submit complete requirements to the Scholarship Office / OSA before the deadline.
+Step 5 → Wait for the evaluation and approval.
+Step 6 → Once approved, maintain the required GWA to keep your scholarship.
 
-⚠️ Scholarship deadlines are strictly followed. Always apply early to avoid missing out!
+⚠️ Scholarship slots are limited — apply early! Deadlines are strictly observed.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 WHERE TO GO FOR OTHER SERVICES
+📌 PLMun STUDENT SERVICES DIRECTORY
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🏥 Medical / Dental Clinic → For free health services (bring Student ID)
-📚 Library → For books, references, and e-resources (bring Library Card)
-💬 Guidance Office → For counseling and personal concerns (confidential)
-🪪 Student Affairs Office → For ID, organizations, and student concerns
-💻 ICT Office → For Student Portal issues and technical concerns
-💰 Cashier's Office → For tuition payments and official receipts
+🏥 Medical / Dental Clinic — Free health services for enrolled students (bring Student ID)
+📚 eLibrary — Online library resources at: https://plmun-library.follettdestiny.com
+💬 Guidance & Counseling Office — Free, confidential counseling (walk-in or appointment)
+🪪 Student Affairs Office (OSA) — Scholarships, org, student concerns
+💻 ICT Office — Student Portal and tech concerns | 📧 ict@plmun.edu.ph
+📞 Support: support@plmun.edu.ph
+
+📞 PLMun Main: 02-8248-9161 loc. 146
+📧 Email: plmuncomm@plmun.edu.ph
+🌐 Website: www.plmun.edu.ph
+📍 Address: University Road, NBP Reservation, Brgy. Poblacion, Muntinlupa City, 1776
 
 Do you want more details about a specific service or scholarship? 😊""",
 
-        """🪪 STUDENT ID GUIDE — PLMun
-
-Here is everything you need to know about getting or replacing your PLMun Student ID:
+        """🪪 PLMun STUDENT ID & PORTAL GUIDE
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 HOW TO GET A NEW STUDENT ID (For New Students)
+📌 HOW TO GET YOUR STUDENT ID
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Step 1 → After enrollment, go to the Student Affairs Office.
-Step 2 → Bring the following:
+Step 1 → After enrollment, go to the PLMun Student Affairs Office (OSA).
+Step 2 → Bring:
    ✅ Certificate of Registration (COR) or Enrollment Form
-   ✅ 1x1 or 2x2 ID photo (white background)
-   ✅ Official Receipt of ID fee payment from the Cashier's Office
-
+   ✅ 1x1 or 2x2 ID photo (white background, 2 copies)
+   ✅ Official Receipt of ID fee payment
 Step 3 → Fill out the ID Application Form.
 Step 4 → Wait for your ID to be processed and released.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 HOW TO REPLACE A LOST STUDENT ID
+📌 HOW TO REPLACE A LOST ID
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Step 1 → Prepare an Affidavit of Loss (can be notarized at a notary public).
-Step 2 → Report the loss to the Student Affairs Office or Security Office.
-Step 3 → Pay the ID Replacement Fee at the Cashier's Office.
+Step 1 → Report the loss to the Security Office or Student Affairs Office.
+Step 2 → Prepare a notarized Affidavit of Loss.
+Step 3 → Pay the ID Replacement Fee at the Treasury / Cashier's Office.
 Step 4 → Submit the Affidavit of Loss and Official Receipt to the Student Affairs Office.
-Step 5 → Wait for the replacement ID to be processed.
+Step 5 → Wait for your replacement ID.
 
-⚠️ Always wear your Student ID inside the campus — it is required by PLMun policy.
+⚠️ Wearing your PLMun Student ID inside the campus is required by school policy.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 HOW TO RESET YOUR STUDENT PORTAL PASSWORD
+📌 HOW TO ACCESS THE PLMun STUDENT PORTAL
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Step 1 → Go to the PLMun ICT Office or Registrar's Office.
+🔗 URL: https://plmun.edu.ph/student-portal/system/main/index.php
+• Log in using your PLMun Student ID Number and password.
+• Use the portal to check grades, view schedule, and monitor enrollment status.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📌 FORGOT PASSWORD / CANNOT LOGIN?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Step 1 → Visit the PLMun ICT Office or Registrar's Office in person.
 Step 2 → Provide your Student ID Number and valid ID for verification.
 Step 3 → Request a password reset.
-Step 4 → The staff will reset your account and provide a temporary password.
+Step 4 → The ICT staff will reset your account and give you a temporary password.
 Step 5 → Log in and change your password immediately.
 
-💡 You can also check the PLMun website or Student Portal login page for a "Forgot Password" option.
+📧 ICT Support: ict@plmun.edu.ph | support@plmun.edu.ph
+📞 02-8248-9161 | 🌐 www.plmun.edu.ph
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📌 PLMun eLIBRARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔗 Access: https://plmun-library.follettdestiny.com
+• Available to all enrolled PLMun students.
+• Physical library is open during school hours.
+• Bring your Library Card / Student ID to borrow books.
 
 Do you need help with other student services? 😊""",
     ],
@@ -612,21 +712,25 @@ Do you need help with other student services? 😊""",
 
 Don't worry! Here's what you can do:
 
-📌 Try rephrasing your question. For example:
-   • Instead of "How?" → Try "How do I enroll at PLMun?"
-   • Instead of "Documents" → Try "How do I request my Transcript of Records?"
+📌 Try rephrasing your question. Examples:
+   • "How do I apply at PLMun?" → Enrollment & PCAT info
+   • "What courses are offered?" → PLMun academic programs
+   • "How do I get my TOR?" → Document request guide
+   • "Is there a scholarship at PLMun?" → Iskolar ng Bayan info
+   • "What is the passing grade?" → Grading system info
 
-📌 Here are the topics I can best assist you with:
-   📋 Enrollment — requirements, procedures, fees
-   📅 Schedule — class schedule, academic calendar, exam dates
-   📜 Policies — grading, attendance, conduct, appeals
-   📁 Documents — TOR, certificates, diplomas
-   🎓 Services — scholarships, guidance, library, clinic, ID
+📌 Topics I can best help you with:
+   📋 Enrollment & Admission (PCAT, requirements, courses)
+   📅 Class Schedule & Academic Calendar
+   📜 School Policies (grading, attendance, conduct)
+   📁 Documents (TOR, certificates, diploma)
+   🎓 Student Services (scholarships, guidance, portal, ID)
 
-📌 If your concern is urgent or requires personal attention, please visit:
-   • Registrar's Office — for enrollment and documents
-   • Student Affairs Office — for scholarships and student concerns
-   • Guidance Office — for personal and academic counseling
+📌 For urgent concerns, contact PLMun directly:
+   📞 Telephone: 02-8248-9161 loc. 146
+   📧 Email: plmuncomm@plmun.edu.ph
+   🌐 Website: www.plmun.edu.ph
+   📍 Address: University Road, NBP Reservation, Brgy. Poblacion, Muntinlupa City, 1776
 
 Feel free to try again — I'm here to help! 😊""",
     ]
@@ -637,37 +741,30 @@ def get_response(intent):
 
 def train_model(texts, labels):
     pipeline = Pipeline([
-        ('tfidf', TfidfVectorizer(ngram_range=(1, 2), sublinear_tf=True, min_df=1, analyzer='word')),
+        ('tfidf', TfidfVectorizer(ngram_range=(1, 2), sublinear_tf=True, min_df=1)),
         ('nb', MultinomialNB(alpha=0.3))
     ])
-    processed = [preprocess(t) for t in texts]
-    pipeline.fit(processed, labels)
+    pipeline.fit([preprocess(t) for t in texts], labels)
     return pipeline
 
 def evaluate_model(texts, labels, pipeline):
     processed = [preprocess(t) for t in texts]
     X_train, X_test, y_train, y_test = train_test_split(
-        processed, labels, test_size=0.2, random_state=42, stratify=labels
-    )
-    eval_pipeline = Pipeline([
-        ('tfidf', TfidfVectorizer(ngram_range=(1,2), sublinear_tf=True, min_df=1)),
-        ('nb', MultinomialNB(alpha=0.3))
-    ])
-    eval_pipeline.fit(X_train, y_train)
-    y_pred = eval_pipeline.predict(X_test)
+        processed, labels, test_size=0.2, random_state=42, stratify=labels)
+    ep = Pipeline([('tfidf', TfidfVectorizer(ngram_range=(1,2), sublinear_tf=True, min_df=1)), ('nb', MultinomialNB(alpha=0.3))])
+    ep.fit(X_train, y_train)
+    y_pred = ep.predict(X_test)
     intents = sorted(set(labels))
-    cv_scores = cross_val_score(eval_pipeline, processed, labels, cv=5, scoring='accuracy')
+    cv = cross_val_score(ep, processed, labels, cv=5, scoring='accuracy')
     return {
-        "accuracy": round(accuracy_score(y_test, y_pred) * 100, 2),
-        "precision": round(precision_score(y_test, y_pred, average='weighted', zero_division=0) * 100, 2),
-        "recall": round(recall_score(y_test, y_pred, average='weighted', zero_division=0) * 100, 2),
-        "f1_score": round(f1_score(y_test, y_pred, average='weighted', zero_division=0) * 100, 2),
-        "cross_val_mean": round(cv_scores.mean() * 100, 2),
-        "cross_val_std": round(cv_scores.std() * 100, 2),
-        "cv_scores": [round(s * 100, 2) for s in cv_scores],
-        "train_size": len(X_train),
-        "test_size": len(X_test),
-        "total_samples": len(labels),
+        "accuracy": round(accuracy_score(y_test, y_pred)*100, 2),
+        "precision": round(precision_score(y_test, y_pred, average='weighted', zero_division=0)*100, 2),
+        "recall": round(recall_score(y_test, y_pred, average='weighted', zero_division=0)*100, 2),
+        "f1_score": round(f1_score(y_test, y_pred, average='weighted', zero_division=0)*100, 2),
+        "cross_val_mean": round(cv.mean()*100, 2),
+        "cross_val_std": round(cv.std()*100, 2),
+        "cv_scores": [round(s*100, 2) for s in cv],
+        "train_size": len(X_train), "test_size": len(X_test), "total_samples": len(labels),
         "intents": intents,
         "confusion_matrix": confusion_matrix(y_test, y_pred, labels=intents).tolist(),
         "report": classification_report(y_test, y_pred, target_names=intents, output_dict=True)
@@ -680,8 +777,8 @@ print("Training model...", end=" ")
 pipeline = train_model(texts, labels)
 print("Done.")
 eval_results = evaluate_model(texts, labels, pipeline)
-print(f"Accuracy : {eval_results['accuracy']}%  |  F1: {eval_results['f1_score']}%  |  CV: {eval_results['cross_val_mean']}%")
-print("PLMun Chatbot Ready!")
+print(f"Accuracy: {eval_results['accuracy']}% | F1: {eval_results['f1_score']}% | CV: {eval_results['cross_val_mean']}%")
+print("PLMun Chatbot Ready! 💚")
 
 @app.route("/")
 def index():
@@ -696,57 +793,31 @@ def chat():
     start = time.time()
     cleaned = preprocess(user_input)
     intent = rule_based_classify(cleaned)
-    method = "Rule-Based"
-    confidence = 100.0
+    method, confidence = "Rule-Based", 100.0
     if intent is None:
         probs = pipeline.predict_proba([cleaned])[0]
         idx = probs.argmax()
         intent = pipeline.classes_[idx]
-        confidence = round(float(probs[idx]) * 100, 1)
+        confidence = round(float(probs[idx])*100, 1)
         method = "Naive Bayes"
-    response_time = round((time.time() - start) * 1000, 2)
     return jsonify({
-        "response": get_response(intent),
-        "intent": intent,
-        "method": method,
-        "confidence": confidence,
-        "response_time_ms": response_time
+        "response": get_response(intent), "intent": intent,
+        "method": method, "confidence": confidence,
+        "response_time_ms": round((time.time()-start)*1000, 2)
     })
 
-
-@app.route("/eval", methods=["GET"])
+@app.route("/eval")
 def get_eval():
     return jsonify(eval_results)
 
-@app.route("/stats", methods=["GET"])
+@app.route("/stats")
 def get_stats():
     return jsonify({
-        "total_samples": len(texts),
-        "total_intents": len(set(labels)),
+        "total_samples": len(texts), "total_intents": len(set(labels)),
         "intents": sorted(set(labels)),
         "algorithm": "Hybrid: Rule-Based + TF-IDF + Multinomial Naive Bayes",
-        "accuracy": eval_results["accuracy"],
-        "f1_score": eval_results["f1_score"]
+        "accuracy": eval_results["accuracy"], "f1_score": eval_results["f1_score"]
     })
 
-def chatbot_respond(user_input, vectorizer, model):
-    cleaned = preprocess(user_input)
-
-    # Rule-based muna
-    intent = rule_based_classify(cleaned)
-    method = "Rule-Based"
-    confidence = 100.0
-
-    # If walang match → ML
-    if intent is None:
-        probs = model.predict_proba([cleaned])[0]
-        idx = probs.argmax()
-        intent = model.classes_[idx]
-        confidence = round(float(probs[idx]) * 100, 1)
-        method = "Naive Bayes"
-
-    response = get_response(intent)
-
-    return response, intent, method
 if __name__ == "__main__":
     app.run(debug=True)
