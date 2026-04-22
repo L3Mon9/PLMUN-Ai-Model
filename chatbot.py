@@ -713,6 +713,7 @@ def chat():
         "response_time_ms": response_time
     })
 
+
 @app.route("/eval", methods=["GET"])
 def get_eval():
     return jsonify(eval_results)
@@ -728,5 +729,24 @@ def get_stats():
         "f1_score": eval_results["f1_score"]
     })
 
+def chatbot_respond(user_input, vectorizer, model):
+    cleaned = preprocess(user_input)
+
+    # Rule-based muna
+    intent = rule_based_classify(cleaned)
+    method = "Rule-Based"
+    confidence = 100.0
+
+    # If walang match → ML
+    if intent is None:
+        probs = model.predict_proba([cleaned])[0]
+        idx = probs.argmax()
+        intent = model.classes_[idx]
+        confidence = round(float(probs[idx]) * 100, 1)
+        method = "Naive Bayes"
+
+    response = get_response(intent)
+
+    return response, intent, method
 if __name__ == "__main__":
     app.run(debug=True)
